@@ -1,0 +1,39 @@
+:root{
+    /* palette */
+    --bg-1: #f5e6d3;
+    --bg-2: #e8d4b8;
+    --surface: #ffffff;
+    --ink-900: #6b4423;
+    --ink-700: #8b6239;
+    --ink-muted: #a07b52;
+  
+    --brand-500: #d4a574;
+    --brand-600: #c49060;
+    --brand-700: #b8804f;
+  
+    --chip: #f5e6d3;
+    --card-hover: #faf7f2;
+  
+    --ok-500: #a8d5a3;
+    --ok-600: #5a9456;
+  
+    /* shape & shadow */
+    --r-lg: 20px;
+    --r-md: 12px;
+    --shadow-1: 0 4px 15px rgba(0,0,0,.08);
+    --shadow-2: 0 8px 25px rgba(0,0,0,.12);
+  
+    /* spacing & type */
+    --space-1: .5rem;
+    --space-2: .75rem;
+    --space-3: 1rem;
+    --space-4: 1.5rem;
+    --space-5: 2rem;
+  
+    --fs-xs: .9rem;
+    --fs-sm: 1rem;
+    --fs-md: 1.25rem;
+    --fs-lg: 1.5rem;
+    --fs-xl: 2.5rem;
+  }
+  

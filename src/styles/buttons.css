@@ -1,0 +1,27 @@
+.btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    gap:.5rem; border:none; cursor:pointer; font-weight:600;
+    padding: .8rem 1.2rem; border-radius: 50px; transition: transform .2s, box-shadow .2s, background .2s;
+}
+  
+.btn-primary{
+    color:#fff;
+    background: linear-gradient(135deg, var(--brand-500) 0%, var(--brand-600) 100%);
+    box-shadow: var(--shadow-1);
+}
+.btn-primary:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2);
+    background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand-700) 100%);
+}
+  
+.btn-block{
+    width: 100%;
+    border-radius: var(--r-md);
+}
+
+.btn-ghost{
+    background: transparent;
+    color: var(--ink-700);
+}
+  

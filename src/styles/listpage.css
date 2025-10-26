@@ -1,0 +1,107 @@
+.container--wide{
+    max-width: 1260px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+}
+  
+.list-hero{
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-1);
+    padding: var(--space-4);
+
+    display:flex; 
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: var(--space-4);
+}
+
+.hero-heading{ grid-column: 1 / 2; grid-row: 1 / 2; }
+.add-task-btn{ grid-column: 2 / 3; grid-row: 1 / 2; justify-self: end; }
+.hero-progress{ grid-column: 1 / -1; grid-row: 2 / 3; }
+  
+.progress-meta{
+    color: var(--ink-700);
+    font-size:.95rem;
+    margin-top:.5rem;
+}
+  
+.tasks-shell{
+    background: var(--surface);
+    border-radius: calc(var(--r-lg) - 4px);
+    box-shadow: var(--shadow-1);
+    padding: var(--space-4);
+}
+  
+.task-card{
+    display:flex; align-items:flex-start; gap:.75rem;
+    background: #fbfaf7;
+    border: 2px solid #f0e3cf;
+    border-radius: var(--r-md);
+    padding: var(--space-3);
+    margin-bottom: var(--space-3);
+    position: relative;
+}
+  
+.task-card.done{
+    background: #e8f6e8;
+    border-color: #cfead0;
+    box-shadow: inset 0 0 0 1px #bde1bf;
+}
+  
+.task-card::before{
+    content:"";
+    position:absolute; left:-2px; top:-2px; bottom:-2px; width:6px;
+    border-radius: 8px 0 0 8px;
+    background: #e7d6bd;
+}
+
+.task-card.done::before{
+    background: #a8d5a3;
+}
+  
+.task-title{
+    display:flex;
+    align-items:center;
+    gap:.75rem;
+    font-weight:600;
+    color: var(--ink-900);
+}
+
+.task-desc{
+    color: var(--ink-700);
+    font-size:.95rem;
+    margin-top:.25rem;
+}
+  
+.task-actions{
+    margin-left:auto; display:flex; gap:.5rem;
+}
+
+.icon-pill{
+    display:inline-flex; 
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    background:#fde6ea;
+}
+
+/* sandy */
+.icon-pill--edit{
+    background:#f7ebd8; 
+}
+
+.icon-pill:hover{
+    filter:brightness(.87);
+}
+  
+/* add Task button in hero */
+.add-task-btn{
+    min-width: 120px;
+    border-radius: 12px;
+    padding: .6rem .9rem;
+}

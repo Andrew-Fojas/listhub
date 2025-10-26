@@ -9,7 +9,8 @@ export const seed = {
       { id: "t2", listId: "cooking", title: "Try new pasta recipe", desc: "", done: false },
       { id: "t3", listId: "cooking", title: "Meal prep for Monday", desc: "", done: false },
       { id: "t4", listId: "school", title: "Finish math homework", done: false },
-      { id: "t5", listId: "household", title: "Do laundry", done: true }
+      { id: "t5", listId: "household", title: "Do laundry", done: true },
+      { id: "t6", listId: "household", title: "Run the dishwasher", done: true }
     ]
   };
 /* hard coded tasks for now */  

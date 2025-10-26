@@ -1,0 +1,31 @@
+.list-hero{
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-1);
+    padding: var(--space-4);
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: var(--space-4);
+}
+  
+.progress{
+    width: 300px; height: 8px;
+    border-radius: 999px;
+    background: var(--bg-1);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress > span{
+    position:absolute; left:0; top:0; bottom:0;
+    width: 0%;
+    background: var(--ink-900);
+    opacity: .75;
+    transition: width .3s ease;
+}
+
+.progress-meta{
+    color: var(--ink-700);
+    font-size:.95rem;
+    margin-top:.5rem;
+}
+  

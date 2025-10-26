@@ -1,0 +1,31 @@
+.stats-bar{
+    display:flex; justify-content:space-around; align-items:center;
+    background: var(--surface);
+    padding: var(--space-4);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-1);
+}
+.stat-item{
+    text-align:center;
+}
+
+.stat-number{
+    font-size: 2rem;
+    font-weight:700;
+    color: var(--ink-900);
+    display:block;
+}
+
+.stat-label{
+    color: var(--ink-700);
+    font-size: var(--fs-xs);
+    margin-top:.25rem;
+}
+
+@media (max-width:768px){
+    .stats-bar{
+        flex-direction:column; 
+        gap:1rem;
+    }
+}
+  

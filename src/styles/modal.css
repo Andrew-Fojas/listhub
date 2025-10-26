@@ -1,0 +1,64 @@
+/* Dark overlay */
+.modal-backdrop{
+    position: fixed; inset: 0;
+    background: rgba(24, 20, 17, .55);
+    backdrop-filter: blur(2px);
+    display:flex; 
+    align-items:center;
+    justify-content:center;
+    z-index: 1000;
+}
+  
+/* Centered panel */
+.modal-panel{
+    width: min(900px, 92vw);
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    padding: 18px;
+}
+  
+  /* Modal header row */
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 12px;
+}
+
+.modal-title{ 
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+  
+/* Form box inside modal (matches mock rounded inset) */
+.modal-form{
+    border: 2px solid #e8d8c3;
+    border-radius: 16px;
+    padding: 14px;
+    background: #fff;
+}
+.modal-form input, .modal-form textarea{
+    width: 100%;
+    border: 1px solid #e6d5c0;
+    background: #fff;
+    border-radius: 12px;
+    padding: .9rem 1rem;
+    color: var(--ink-900);
+}
+.modal-form input::placeholder, .modal-form textarea::placeholder{
+    color: #9a8163;
+}
+.modal-form textarea{
+    min-height: 220px; 
+    resize: vertical; 
+    margin-top: 12px;
+}
+  
+.modal-footer{
+    display:flex; 
+    gap:.75rem; 
+    justify-content:flex-end; 
+    margin-top: 14px;
+}
+  

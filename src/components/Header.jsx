@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-export default function Header() {
+
+export default function Header(){
   return (
-    <header>
-      <h1>✨ ListHub ✨</h1>
-      <h3>The Hub for Go-Getters!</h3>
-      <Link to="/">Create New List</Link>
+    <header className="app-header container">
+      <h2>✨ ListHub ✨</h2>
+      <p className="subtitle">Stay organized and productive!</p>
+      <Link to="/" className="btn btn-primary create-list-btn">Create New List</Link>
     </header>
   );
 }

@@ -1,0 +1,32 @@
+/* Center all page sections */
+.container{
+  max-width: 1200px;
+  margin-inline: auto;    /* left/right auto */
+  padding-inline: 1rem;   /* a bit of side breathing room */
+}
+
+.section{
+  margin-top: var(--space-4);
+}
+
+/* Card grid: up to 3 per row on desktop, 2 on tablets, 1 on phones */
+.lists-grid{
+  display: grid;
+  /* Each card can shrink to ~340px; grid auto-fits as space allows */
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* Breakpoints to keep it close to your hi-fi */
+@media (min-width: 1024px){
+  /* Cap at 3 columns on larger screens (matches your mock) */
+  .lists-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px){
+  .lists-grid{ grid-template-columns: 1fr; }
+}
+
+/* Safety guard in case some global style set a flex/grid wrapper */
+#root, body, main { display: block; }

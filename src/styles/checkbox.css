@@ -1,0 +1,28 @@
+/* custom styled checkbox */
+
+.chk{
+    appearance: none; -webkit-appearance:none; -moz-appearance:none;
+    width:20px; height:20px; border:2px solid var(--brand-500);
+    border-radius:6px; cursor:pointer; position:relative; flex-shrink:0;
+    background:#fff;
+}
+
+.chk.is-checked{
+    background: var(--ok-500); border-color: var(--ok-500);
+}
+
+.chk.is-checked::after{
+    content:'✓'; position:absolute; color:#fff; font-size:14px;
+    top:50%; left:50%; transform: translate(-50%,-52%);
+}
+  
+.task-text{
+    color: var(--ink-900);
+    flex:1;
+}
+
+.task-text.is-done{
+    text-decoration: line-through;
+    color: var(--ok-600);
+}
+  
