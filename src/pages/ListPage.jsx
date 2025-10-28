@@ -25,7 +25,7 @@ export default function ListPage() {
       </div>
 
       {/* Header card */}
-      <div className="container--wide">
+      {/*<div className="container--wide">
         <div className="list-hero">
           <div className="hero-heading">
             <h1>{list.name}</h1>
@@ -41,6 +41,23 @@ export default function ListPage() {
               {completed} of {list.tasks.length} tasks completed
             </small>
           </div>
+        </div>
+  </div>*/}
+      <div className="container--wide">
+        <div className="tasks-shell">
+        <div className="hero-top">
+          <div className="hero-heading">
+            <h1>{list.name}</h1>
+          </div>
+          <button className="btn btn-primary add-task-btn" onClick={() => setOpen(true)}>
+            + Add Task
+          </button>
+        </div>
+
+          <ProgressBar value={pct} />
+            <small className="progress-meta">
+              {completed} of {list.tasks.length} tasks completed
+            </small>
         </div>
       </div>
 

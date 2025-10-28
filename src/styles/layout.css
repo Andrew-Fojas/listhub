@@ -1,6 +1,6 @@
 /* Center all page sections */
 .container{
-  max-width: 1200px;
+  width: 1200px;
   margin-inline: auto;    /* left/right auto */
   padding-inline: 1rem;   /* a bit of side breathing room */
 }
@@ -22,6 +22,14 @@
 @media (min-width: 1024px){
   /* Cap at 3 columns on larger screens (matches your mock) */
   .lists-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1300px){
+  .container{ width: 800px;}
+}
+
+@media (max-width: 900px){
+  .container{ width: 600px; }
 }
 
 @media (max-width: 768px){

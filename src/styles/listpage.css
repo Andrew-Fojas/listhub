@@ -1,24 +1,33 @@
 .container--wide{
-    max-width: 1260px;
+    width: 1140px;
     margin-inline: auto;
     padding-inline: 1rem;
+    margin-bottom: 20px;
 }
+
+/* Breakpoints to keep it close to your hi-fi */
+@media (max-width: 1200px){
+    /* Cap at 3 columns on larger screens (matches your mock) */
+    .container--wide{
+        width: 800px;
+    }
+  }
   
-.list-hero{
-    background: var(--surface);
-    border-radius: var(--r-lg);
-    box-shadow: var(--shadow-1);
-    padding: var(--space-4);
-
-    display:flex; 
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom: var(--space-4);
+@media (max-width: 900px){
+    .container--wide{
+        width: 600px;
+    }
 }
 
-.hero-heading{ grid-column: 1 / 2; grid-row: 1 / 2; }
-.add-task-btn{ grid-column: 2 / 3; grid-row: 1 / 2; justify-self: end; }
-.hero-progress{ grid-column: 1 / -1; grid-row: 2 / 3; }
+.hero-top{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.white-box{
+    background-color: #ffffff;
+}
   
 .progress-meta{
     color: var(--ink-700);
