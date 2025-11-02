@@ -14,7 +14,7 @@ export default function ListPage() {
   const list = getListById(listId);
   if (!list) return <div className="container--wide"><p>List not found.</p></div>;
 
-  const completed = list.tasks.filter(t => t.done).length;
+  const completed = list?.tasks?.filter(t => t.done).length || [];
   const pct = list.tasks.length ? completed / list.tasks.length : 0;
 
   return (
@@ -25,24 +25,6 @@ export default function ListPage() {
       </div>
 
       {/* Header card */}
-      {/*<div className="container--wide">
-        <div className="list-hero">
-          <div className="hero-heading">
-            <h1>{list.name}</h1>
-          </div>
-
-          <button className="btn btn-primary add-task-btn" onClick={() => setOpen(true)}>
-            + Add Task
-          </button>
-
-          <div className="hero-progress">
-            <ProgressBar value={pct} />
-            <small className="progress-meta">
-              {completed} of {list.tasks.length} tasks completed
-            </small>
-          </div>
-        </div>
-  </div>*/}
       <div className="container--wide">
         <div className="tasks-shell">
         <div className="hero-top">

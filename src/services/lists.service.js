@@ -1,4 +1,39 @@
-import { load, save } from "./storage.js";
+// src/services/lists.service.js
+import { jget, jpost, jpatch } from "./http.js";
+
+const USE_API = true;
+
+// GET ALL LISTS
+export async function getLists() {
+  const data = await jget("/api/lists");
+  // normalize every list so list.tasks is ALWAYS an array
+  return data.map((l) => ({
+    ...l,
+    tasks: Array.isArray(l.tasks) ? l.tasks : [],
+  }));
+}
+
+// GET ONE LIST
+export async function getListById(id) {
+  const data = await jget(`/api/lists/${id}`);
+  return {
+    ...data,
+    tasks: Array.isArray(data.tasks) ? data.tasks : [],
+  };
+}
+
+// ADD TASK
+export async function addTask(listId, title, desc = "") {
+  return jpost(`/api/lists/${listId}/tasks`, { title, desc });
+}
+
+// TOGGLE TASK
+export async function toggleTask(taskId) {
+  return jpatch(`/api/tasks/${taskId}/toggle`);
+}
+
+
+/*import { load, save } from "./storage.js";
 import { seed } from "../data/seed.js";
 
 function ensureState() {
@@ -43,4 +78,4 @@ export function counts() {
   const remaining = total - completed;
   const categories = s.lists.length;
   return { total, completed, remaining, categories };
-}
+}*/
