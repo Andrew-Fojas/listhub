@@ -18,8 +18,7 @@
   align-items: start;
 }
 
-/* Breakpoints to keep it close to your hi-fi */
-@media (min-width: 1024px){
+@media (min-width: 1300px){
   /* Cap at 3 columns on larger screens (matches your mock) */
   .lists-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
