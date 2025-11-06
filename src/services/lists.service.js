@@ -1,5 +1,5 @@
 // src/services/lists.service.js
-import { jget, jpost, jpatch } from "./http.js";
+import { jget, jpost, jpatch, jdel } from "./http.js";
 
 const USE_API = true;
 
@@ -32,6 +32,14 @@ export async function toggleTask(taskId) {
   return jpatch(`/api/tasks/${taskId}/toggle`);
 }
 
+export async function updateTask(taskId, fields){
+  // fields can be { title, desc }
+  return jpatch(`/api/tasks/${taskId}`, fields);
+}
+
+export async function removeTask(taskId){
+  return jdel(`/api/tasks/${taskId}`);
+}
 
 /*import { load, save } from "./storage.js";
 import { seed } from "../data/seed.js";

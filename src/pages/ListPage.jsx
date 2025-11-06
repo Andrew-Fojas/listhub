@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getListById, addTask, toggleTask } from "../services/lists.service.js";
+import { getListById, addTask, toggleTask, updateTask, removeTask } from "../services/lists.service.js";
 import ProgressBar from "../components/ProgressBar.jsx";
 import TaskCard from "../components/TaskCard.jsx";
 import AddTaskModal from "../components/AddTaskModal.jsx";
+import EditTaskModal from "../components/EditTaskModal.jsx";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal.jsx";
 
 export default function ListPage(){
   const { listId } = useParams();
@@ -12,6 +14,12 @@ export default function ListPage(){
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
+
+  // modals
+  const [createOpen, setCreateOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   // load once per listId
   useEffect(() => {
@@ -88,8 +96,8 @@ export default function ListPage(){
                 key={t.id}
                 task={t}
                 onToggle={async () => { await toggleTask(t.id); await refresh(); }}
-                onEdit={() => {}}
-                onDelete={() => {}}
+                onEdit={(task) => { setSelectedTask(task); setEditOpen(true); }}
+                onDelete={(task) => { setSelectedTask(task); setDeleteOpen(true); }}
               />
             ))}
             {tasks.length === 0 && <p className="muted">No tasks yet — add one.</p>}
@@ -103,6 +111,32 @@ export default function ListPage(){
         onClose={()=>setOpen(false)}
         onCreate={async (title, desc) => {
           await addTask(list.id, title, desc);
+          await refresh();
+        }}
+      />
+
+      {/* Edit modal */}
+      <EditTaskModal
+        open={editOpen}
+        onClose={() => { setEditOpen(false); setSelectedTask(null); }}
+        task={selectedTask}
+        onSave={async (title, desc) => {
+          await updateTask(selectedTask.id, { title, desc });
+          setEditOpen(false);
+          setSelectedTask(null);
+          await refresh();
+        }}
+      />
+
+      {/* Delete confirm */}
+      <ConfirmDeleteModal
+        open={deleteOpen}
+        onClose={() => { setDeleteOpen(false); setSelectedTask(null); }}
+        task={selectedTask}
+        onConfirm={async () => {
+          await removeTask(selectedTask.id);
+          setDeleteOpen(false);
+          setSelectedTask(null);
           await refresh();
         }}
       />

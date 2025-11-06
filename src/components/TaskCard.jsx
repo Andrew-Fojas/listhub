@@ -15,8 +15,8 @@ export default function TaskCard({ task, onToggle, onEdit, onDelete }){
         </div>
   
         <div className="task-actions">
-          <button className="icon-pill icon-pill--edit" title="Edit" onClick={onEdit}>✎</button>
-          <button className="icon-pill" title="Delete" onClick={onDelete}>⌫</button>
+        <button className="icon-pill icon-pill--edit" onClick={() => onEdit?.(task)} title="Edit">✎</button>
+        <button className="icon-pill" onClick={() => onDelete?.(task)} title="Delete">⌫</button>
         </div>
       </li>
     );

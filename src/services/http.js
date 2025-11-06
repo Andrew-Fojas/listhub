@@ -21,3 +21,11 @@ export async function jpatch(url, body){
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
+
+export async function jdel(url){
+  const res = await fetch(url, { 
+    method: "DELETE" 
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}

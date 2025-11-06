@@ -31,6 +31,26 @@ export async function toggleTask(req, res){
   });
 }
 
-// (optional) delete/edit for later:
-// export async function deleteTask(...) {}
-// export async function updateTask(...) {}
+export async function updateTask(req, res){
+  const { id } = req.params;
+  const { title, desc } = req.body || {};
+  const task = await Task.findById(id);
+  if (!task) return res.status(404).json({ error: "Task not found" });
+
+  if (typeof title === "string") task.title = title.trim();
+  if (typeof desc  === "string") task.desc  = desc;
+  await task.save();
+
+  res.json({
+    id: task._id.toString(),
+    listId: task.listId.toString(),
+    title: task.title, desc: task.desc, done: task.done
+  });
+}
+
+export async function deleteTask(req, res){
+  const { id } = req.params;
+  const task = await Task.findByIdAndDelete(id);
+  if (!task) return res.status(404).json({ error: "Task not found" });
+  res.json({ ok: true, id });
+}
