@@ -96,12 +96,12 @@
     border-radius:10px;
     border:none;
     cursor:pointer;
-    background:#a4001b;
+    background:#ec6279;
 }
 
 /* sandy */
 .icon-pill--edit{
-    background:#de8900; 
+    background:#e5b362; 
 }
 
 .icon-pill:hover{
