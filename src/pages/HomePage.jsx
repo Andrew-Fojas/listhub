@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import StatsBar from "../components/StatsBar.jsx";
 import ListCard from "../components/ListCard.jsx";
-import { getLists } from "../services/lists.service.js";
+import { getLists, createList } from "../services/lists.service.js";
+import CreateListModal from "../components/CreateListModal.jsx";
 
 export default function HomePage(){
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]   = useState(null);
+
+  const [createOpen, setCreateOpen] = useState(false);
+  // force refetch after create
+  const [version, setVersion] = useState(0);
 
   useEffect(() => {
     let alive = true;
@@ -30,10 +34,11 @@ export default function HomePage(){
 
   return (
     <main>
-      <Header />
+       {/* Pass click handler to header button */}
+       <Header onCreateList={() => setCreateOpen(true)} />
 
-      {}
-      <StatsBar />
+      {/* Re-mount StatsBar after create so totals refresh */}
+      <StatsBar key={version} />
 
       <section className="container section">
         {loading && <p>Loading lists…</p>}
@@ -47,6 +52,22 @@ export default function HomePage(){
           </div>
         )}
       </section>
+
+      <CreateListModal
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        onCreate={async (name) => {
+          // create on the server { id, name }
+          const created = await createList(name); 
+          // optimistic add
+          setLists(prev => [...prev, { ...created, tasks: [] }]);
+          setCreateOpen(false);
+          setVersion(v => v + 1)
+
+          //  re-fetch to sync counts/ordering from server
+          loadLists();
+        }}
+      />
     </main>
   );
 }

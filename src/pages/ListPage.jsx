@@ -100,7 +100,7 @@ export default function ListPage(){
                 onDelete={(task) => { setSelectedTask(task); setDeleteOpen(true); }}
               />
             ))}
-            {tasks.length === 0 && <p className="muted">No tasks yet — add one.</p>}
+            {tasks.length === 0 && <p className="muted">No tasks yet. Add some!</p>}
           </ul>
         </div>
       </section>

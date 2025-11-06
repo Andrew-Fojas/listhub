@@ -11,7 +11,7 @@ export default function EditTaskModal({ open, onClose, task, onSave }) {
       setTitle(task.title ?? "");
       setDesc(task.desc ?? "");
     }
-  }, [open, task?.id]); // important: depend on task id
+  }, [open, task?.id]); // depend on task id
 
   const submit = (e) => {
     e.preventDefault();
