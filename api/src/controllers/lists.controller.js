@@ -49,3 +49,17 @@ export async function createList(req, res){
   const created = await List.create({ name: name.trim() });
   res.status(201).json({ id: created._id.toString(), name: created.name });
 }
+
+export async function deleteList(req, res) {
+  const { id } = req.params;
+
+  const list = await List.findById(id);
+  if (!list) return res.status(404).json({ error: "List not found" });
+
+  // remove all tasks for this list
+  await Task.deleteMany({ listId: id });
+  // remove list
+  await List.findByIdAndDelete(id);
+
+  res.json({ ok: true, id });
+}

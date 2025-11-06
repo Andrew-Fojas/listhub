@@ -44,3 +44,7 @@ export async function removeTask(taskId){
 export async function createList(name) {
   return jpost("/api/lists", { name });
 }
+
+export async function removeList(listId) {
+  return jdel(`/api/lists/${listId}`);
+}

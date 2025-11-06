@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header.jsx";
 import StatsBar from "../components/StatsBar.jsx";
 import ListCard from "../components/ListCard.jsx";
-import { getLists, createList } from "../services/lists.service.js";
+import { getLists, createList, removeList } from "../services/lists.service.js";
 import CreateListModal from "../components/CreateListModal.jsx";
+import ConfirmDeleteListModal from "../components/ConfirmDeleteListModal.jsx";
 
 export default function HomePage(){
   const [lists, setLists] = useState([]);
@@ -11,26 +12,25 @@ export default function HomePage(){
   const [error, setError]   = useState(null);
 
   const [createOpen, setCreateOpen] = useState(false);
-  // force refetch after create
-  const [version, setVersion] = useState(0);
+  const [version, setVersion] = useState(0);  // force refetch after create
 
-  useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        const data = await getLists();
-        if (alive) {
-          setLists(data);
-          setError(null);
-        }
-      } catch (err) {
-        if (alive) setError(err.message || "Failed to load lists");
-      } finally {
-        if (alive) setLoading(false);
-      }
-    })();
-    return () => { alive = false; };
-  }, []);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [selectedList, setSelectedList] = useState(null);
+
+  const loadLists = async () => {
+    setLoading(true);
+    try {
+      const data = await getLists();
+      setLists(Array.isArray(data) ? data : []);
+      setError(null);
+    } catch (err) {
+      setError(err.message || "Failed to load lists");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { loadLists(); }, []);
 
   return (
     <main>
@@ -47,7 +47,11 @@ export default function HomePage(){
         {!loading && !error && (
           <div className="lists-grid">
             {lists.map(list => (
-              <ListCard key={list.id} list={list} />
+              <ListCard
+                key={list.id}
+                list={list}
+                onDelete={(l) => { setSelectedList(l); setDeleteOpen(true); }}  // ← ADD
+              />
             ))}
           </div>
         )}
@@ -66,6 +70,25 @@ export default function HomePage(){
 
           //  re-fetch to sync counts/ordering from server
           loadLists();
+        }}
+      />
+
+      {/* Delete List */}
+      <ConfirmDeleteListModal
+        open={deleteOpen}
+        onClose={() => { setDeleteOpen(false); setSelectedList(null); }}
+        list={selectedList}
+        onConfirm={async () => {
+          // optimistic remove
+          setLists(prev => prev.filter(l => l.id !== selectedList.id));
+          setDeleteOpen(false);
+
+          // server delete
+          await removeList(selectedList.id);
+
+          setVersion(v => v + 1);  // update StatsBar categories
+          // await loadLists();
+          setSelectedList(null);
         }}
       />
     </main>
