@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import StatsBar from "../components/StatsBar.jsx";
 import ListCard from "../components/ListCard.jsx";
+import { getMe } from "../services/auth.service.js";
 import { getLists, createList, removeList } from "../services/lists.service.js";
 import CreateListModal from "../components/CreateListModal.jsx";
 import ConfirmDeleteListModal from "../components/ConfirmDeleteListModal.jsx";
@@ -10,6 +12,7 @@ export default function HomePage(){
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]   = useState(null);
+  const [me, setMe] = useState(undefined);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [version, setVersion] = useState(0);  // force refetch after create
@@ -17,6 +20,19 @@ export default function HomePage(){
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedList, setSelectedList] = useState(null);
 
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const user = await getMe();
+        if (alive) setMe(user);
+      } catch {
+        if (alive) setMe(null);
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
+     
   const loadLists = async () => {
     setLoading(true);
     try {
@@ -24,13 +40,17 @@ export default function HomePage(){
       setLists(Array.isArray(data) ? data : []);
       setError(null);
     } catch (err) {
-      setError(err.message || "Failed to load lists");
+      setError(err.message || "Failed to Get any Lists");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => { loadLists(); }, []);
+
+    // Guard
+    if (me === undefined) return null;
+    if (!me) return <Navigate to="/login" replace />;
 
   return (
     <main>
@@ -50,7 +70,7 @@ export default function HomePage(){
               <ListCard
                 key={list.id}
                 list={list}
-                onDelete={(l) => { setSelectedList(l); setDeleteOpen(true); }}  // ← ADD
+                onDelete={(l) => { setSelectedList(l); setDeleteOpen(true); }}
               />
             ))}
           </div>
@@ -86,7 +106,8 @@ export default function HomePage(){
           // server delete
           await removeList(selectedList.id);
 
-          setVersion(v => v + 1);  // update StatsBar categories
+          // update StatsBar categories
+          setVersion(v => v + 1);  
           // await loadLists();
           setSelectedList(null);
         }}

@@ -1,4 +1,3 @@
-// src/services/lists.service.js
 import { jget, jpost, jpatch, jdel } from "./http.js";
 
 const USE_API = true;

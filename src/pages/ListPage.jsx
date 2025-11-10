@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
+import { getMe } from "../services/auth.service.js";
 import { getListById, addTask, toggleTask, updateTask, removeTask } from "../services/lists.service.js";
 import ProgressBar from "../components/ProgressBar.jsx";
 import TaskCard from "../components/TaskCard.jsx";
@@ -9,6 +10,7 @@ import ConfirmDeleteModal from "../components/ConfirmDeleteModal.jsx";
 
 export default function ListPage(){
   const { listId } = useParams();
+  const [me, setMe] = useState(undefined);
 
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,8 +23,24 @@ export default function ListPage(){
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
 
+  // Require login
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const user = await getMe();
+        if (alive) setMe(user);
+      } catch {
+        if (alive) setMe(null);
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
+    
+
   // load once per listId
   useEffect(() => {
+    if (me === undefined || !me) return;
     let alive = true;
     setLoading(true);
     (async () => {
@@ -42,7 +60,7 @@ export default function ListPage(){
       }
     })();
     return () => { alive = false; };
-  }, [listId]);
+  }, [listId, me]);
 
   // re-fetch after mutations
   const refresh = async () => {
@@ -52,6 +70,11 @@ export default function ListPage(){
       tasks: Array.isArray(data?.tasks) ? data.tasks : [],
     });
   };
+
+
+  // 🔹 Guard
+  if (me === undefined) return null;
+  if (!me) return <Navigate to="/login" replace />;   // redirect if not logged in
 
   if (loading) return <main className="container--wide"><p>Loading list…</p></main>;
   if (error)   return <main className="container--wide"><p style={{color:"red"}}>{error}</p></main>;

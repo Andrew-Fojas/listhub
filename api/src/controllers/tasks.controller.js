@@ -3,15 +3,21 @@ import List from "../models/List.js";
 import { createTaskSchema } from "../validators/tasks.schema.js";
 
 export async function addTask(req, res){
+  const email = req.user.email;
   const { id: listId } = req.params;
-  const list = await List.findById(listId).lean();
+
+  // ensure list belongs to user
+  const list = await List.findOne({ _id: listId, ownerEmail: email }).lean();
   if (!list) return res.status(404).json({ error: "List not found" });
 
   const parse = createTaskSchema.safeParse(req.body);
   if (!parse.success) return res.status(400).json({ error: parse.error.flatten() });
 
   const { title, desc } = parse.data;
-  const created = await Task.create({ listId, title, desc, done: false });
+
+  // stamp ownerEmail on task
+  const created = await Task.create({ listId, title, desc, done: false, ownerEmail: email });
+
   res.status(201).json({
     id: created._id.toString(),
     listId, title, desc, done: false
@@ -19,11 +25,16 @@ export async function addTask(req, res){
 }
 
 export async function toggleTask(req, res){
+  const email = req.user.email;
   const { id } = req.params;
-  const task = await Task.findById(id);
+
+  // task must belong to user
+  const task = await Task.findOne({ _id: id, ownerEmail: email });
   if (!task) return res.status(404).json({ error: "Task not found" });
+
   task.done = !task.done;
   await task.save();
+
   res.json({
     id: task._id.toString(),
     listId: task.listId.toString(),
@@ -32,9 +43,11 @@ export async function toggleTask(req, res){
 }
 
 export async function updateTask(req, res){
+  const email = req.user.email;
   const { id } = req.params;
   const { title, desc } = req.body || {};
-  const task = await Task.findById(id);
+
+  const task = await Task.findOne({ _id: id, ownerEmail: email });
   if (!task) return res.status(404).json({ error: "Task not found" });
 
   if (typeof title === "string") task.title = title.trim();
@@ -49,8 +62,11 @@ export async function updateTask(req, res){
 }
 
 export async function deleteTask(req, res){
+  const email = req.user.email;
   const { id } = req.params;
-  const task = await Task.findByIdAndDelete(id);
+
+  const task = await Task.findOneAndDelete({ _id: id, ownerEmail: email });
   if (!task) return res.status(404).json({ error: "Task not found" });
+
   res.json({ ok: true, id });
 }
