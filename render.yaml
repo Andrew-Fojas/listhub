@@ -25,9 +25,10 @@ services:
         sync: false
     healthCheckPath: /api/health
 
-  # Frontend Service
-  - type: static
+  # Frontend Service (Static Site)
+  - type: web
     name: listhub-frontend
+    env: static
     region: oregon
     plan: free
     buildCommand: npm install && npm run build
