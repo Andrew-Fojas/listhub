@@ -26,10 +26,8 @@ services:
     healthCheckPath: /api/health
 
   # Frontend Service
-  - type: web
+  - type: static
     name: listhub-frontend
-    runtime: node
-    env: node
     region: oregon
     plan: free
     buildCommand: npm install && npm run build
