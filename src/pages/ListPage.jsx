@@ -132,8 +132,8 @@ export default function ListPage(){
       <AddTaskModal
         open={open}
         onClose={()=>setOpen(false)}
-        onCreate={async (title, desc, date, time) => {
-          await addTask(list.id, title, desc, date, time);
+        onCreate={async (title, desc, date, time, emailReminder) => {
+          await addTask(list.id, title, desc, date, time, emailReminder);
           await refresh();
         }}
       />
@@ -143,8 +143,8 @@ export default function ListPage(){
         open={editOpen}
         onClose={() => { setEditOpen(false); setSelectedTask(null); }}
         task={selectedTask}
-        onSave={async (title, desc, date, time) => {
-          await updateTask(selectedTask.id, { title, desc, date, time });
+        onSave={async (title, desc, date, time, emailReminder) => {
+          await updateTask(selectedTask.id, { title, desc, date, time, emailReminder });
           setEditOpen(false);
           setSelectedTask(null);
           await refresh();

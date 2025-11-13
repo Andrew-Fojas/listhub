@@ -6,6 +6,9 @@ export default function EditTaskModal({ open, onClose, task, onSave }) {
   const [desc, setDesc] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [emailReminder, setEmailReminder] = useState(false);
+  const [error, setError] = useState("");
+  const [canToggleReminder, setCanToggleReminder] = useState(true);
 
   // Prefill whenever modal opens or the selected task changes
   useEffect(() => {
@@ -14,14 +17,58 @@ export default function EditTaskModal({ open, onClose, task, onSave }) {
       setDesc(task.desc ?? "");
       setDate(task.date ?? "");
       setTime(task.time ?? "");
+      setEmailReminder(task.emailReminder ?? false);
+      setError("");
+
+      // Check if task is still more than 10 minutes away
+      if (task.date && task.time) {
+        const [year, month, day] = task.date.split("-");
+        const [hours, minutes] = task.time.split(":");
+        const taskDateTime = new Date(year, month - 1, day, hours, minutes);
+        const now = new Date();
+        const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
+        setCanToggleReminder(taskDateTime > tenMinutesFromNow);
+      }
     }
   }, [open, task?.id]); // depend on task id
 
   const submit = (e) => {
     e.preventDefault();
+    setError("");
+
     const t = title.trim();
     if (!t) return;
-    onSave?.(t, desc, date, time);
+
+    // Validate email reminder requirements
+    if (emailReminder && !task.emailReminder) {
+      // User is trying to enable email reminder
+      if (!date || !time) {
+        setError("The Date and Time must be filled in to send an email reminder");
+        return;
+      }
+
+      // Check if task is scheduled at least 10 minutes in the future
+      const [year, month, day] = date.split("-");
+      const [hours, minutes] = time.split(":");
+      const taskDateTime = new Date(year, month - 1, day, hours, minutes);
+      const now = new Date();
+      const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
+
+      if (taskDateTime <= tenMinutesFromNow) {
+        setError("The task must be scheduled 10 minutes in advance of the present moment");
+        return;
+      }
+    }
+
+    // Validate unchecking email reminder
+    if (!emailReminder && task.emailReminder) {
+      if (!canToggleReminder) {
+        setError("The task reminder has already been sent out");
+        return;
+      }
+    }
+
+    onSave?.(t, desc, date, time, emailReminder);
   };
 
   // Don't render at all without a task
@@ -56,6 +103,17 @@ export default function EditTaskModal({ open, onClose, task, onSave }) {
             onChange={(e) => setTime(e.target.value)}
           />
         </label>
+        <label className="modal-form-label" style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem'}}>
+          <input
+            type="checkbox"
+            checked={emailReminder}
+            onChange={(e)=>setEmailReminder(e.target.checked)}
+            disabled={task.emailReminder && !canToggleReminder}
+            style={{width: 'auto', margin: 0}}
+          />
+          <span>Send an email reminder about the task 10 minutes before it is scheduled?</span>
+        </label>
+        {error && <div style={{color: 'red', fontSize: '0.9em', marginTop: '0.5rem'}}>{error}</div>}
         <div className="modal-footer">
           <button type="button" className="btn btn-ghost" onClick={onClose}>
             Cancel
