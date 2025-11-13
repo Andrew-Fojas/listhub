@@ -28,7 +28,7 @@ services:
   # Frontend Service (Static Site)
   - type: web
     name: listhub-frontend
-    env: static
+    runtime: static
     region: oregon
     plan: free
     buildCommand: npm install && npm run build
