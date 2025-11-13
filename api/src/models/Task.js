@@ -8,8 +8,6 @@ const TaskSchema = new mongoose.Schema(
     done:   { type: Boolean, default: false },
     date:   { type: String, default: "" },
     time:   { type: String, default: "" },
-    emailReminder: { type: Boolean, default: false },
-    emailScheduledId: { type: String, default: "" },
     ownerEmail: { type: String, index: true, required: true },
   },
   { timestamps: true }
