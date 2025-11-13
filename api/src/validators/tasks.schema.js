@@ -5,6 +5,7 @@ export const createTaskSchema = z.object({
   desc: z.string().optional().default(""),
   date: z.string().optional().default(""),
   time: z.string().optional().default(""),
+  emailReminder: z.boolean().optional().default(false),
 });
 
 export const toggleTaskSchema = z.object({
