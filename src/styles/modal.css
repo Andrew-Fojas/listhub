@@ -50,15 +50,26 @@
     color: #9a8163;
 }
 .modal-form textarea{
-    min-height: 220px; 
-    resize: vertical; 
+    min-height: 220px;
+    resize: vertical;
     margin-top: 12px;
 }
-  
+
+.modal-form-label{
+    display: block;
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 12px;
+}
+
+.modal-form-label input{
+    margin-top: 0.25rem;
+}
+
 .modal-footer{
-    display:flex; 
-    gap:.75rem; 
-    justify-content:flex-end; 
+    display:flex;
+    gap:.75rem;
+    justify-content:flex-end;
     margin-top: 14px;
 }
   

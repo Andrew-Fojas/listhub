@@ -20,7 +20,7 @@ export async function getLists(req, res){
     tasks: byList.get(l._id.toString())?.map(t => ({
       id: t._id.toString(),
       listId: t.listId.toString(),
-      title: t.title, desc: t.desc, done: t.done
+      title: t.title, desc: t.desc, date: t.date, time: t.time, done: t.done
     })) ?? []
   }));
 
@@ -46,6 +46,8 @@ export async function getListById(req, res) {
       listId: t.listId.toString(),
       title: t.title,
       desc: t.desc,
+      date: t.date,
+      time: t.time,
       done: t.done,
     })),
   });

@@ -22,8 +22,8 @@ export async function getListById(id) {
 }
 
 // ADD TASK
-export async function addTask(listId, title, desc = "") {
-  return jpost(`/api/lists/${listId}/tasks`, { title, desc });
+export async function addTask(listId, title, desc = "", date = "", time = "") {
+  return jpost(`/api/lists/${listId}/tasks`, { title, desc, date, time });
 }
 
 // TOGGLE TASK

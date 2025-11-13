@@ -13,14 +13,14 @@ export async function addTask(req, res){
   const parse = createTaskSchema.safeParse(req.body);
   if (!parse.success) return res.status(400).json({ error: parse.error.flatten() });
 
-  const { title, desc } = parse.data;
+  const { title, desc, date, time } = parse.data;
 
   // stamp ownerEmail on task
-  const created = await Task.create({ listId, title, desc, done: false, ownerEmail: email });
+  const created = await Task.create({ listId, title, desc, date, time, done: false, ownerEmail: email });
 
   res.status(201).json({
     id: created._id.toString(),
-    listId, title, desc, done: false
+    listId, title, desc, date, time, done: false
   });
 }
 
@@ -38,26 +38,28 @@ export async function toggleTask(req, res){
   res.json({
     id: task._id.toString(),
     listId: task.listId.toString(),
-    title: task.title, desc: task.desc, done: task.done
+    title: task.title, desc: task.desc, date: task.date, time: task.time, done: task.done
   });
 }
 
 export async function updateTask(req, res){
   const email = req.user.email;
   const { id } = req.params;
-  const { title, desc } = req.body || {};
+  const { title, desc, date, time } = req.body || {};
 
   const task = await Task.findOne({ _id: id, ownerEmail: email });
   if (!task) return res.status(404).json({ error: "Task not found" });
 
   if (typeof title === "string") task.title = title.trim();
   if (typeof desc  === "string") task.desc  = desc;
+  if (typeof date  === "string") task.date  = date;
+  if (typeof time  === "string") task.time  = time;
   await task.save();
 
   res.json({
     id: task._id.toString(),
     listId: task.listId.toString(),
-    title: task.title, desc: task.desc, done: task.done
+    title: task.title, desc: task.desc, date: task.date, time: task.time, done: task.done
   });
 }
 

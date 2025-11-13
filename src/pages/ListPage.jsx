@@ -132,8 +132,8 @@ export default function ListPage(){
       <AddTaskModal
         open={open}
         onClose={()=>setOpen(false)}
-        onCreate={async (title, desc) => {
-          await addTask(list.id, title, desc);
+        onCreate={async (title, desc, date, time) => {
+          await addTask(list.id, title, desc, date, time);
           await refresh();
         }}
       />
@@ -143,8 +143,8 @@ export default function ListPage(){
         open={editOpen}
         onClose={() => { setEditOpen(false); setSelectedTask(null); }}
         task={selectedTask}
-        onSave={async (title, desc) => {
-          await updateTask(selectedTask.id, { title, desc });
+        onSave={async (title, desc, date, time) => {
+          await updateTask(selectedTask.id, { title, desc, date, time });
           setEditOpen(false);
           setSelectedTask(null);
           await refresh();

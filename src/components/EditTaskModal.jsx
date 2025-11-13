@@ -4,12 +4,16 @@ import Modal from "./Modal.jsx";
 export default function EditTaskModal({ open, onClose, task, onSave }) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
   // Prefill whenever modal opens or the selected task changes
   useEffect(() => {
     if (open && task) {
       setTitle(task.title ?? "");
       setDesc(task.desc ?? "");
+      setDate(task.date ?? "");
+      setTime(task.time ?? "");
     }
   }, [open, task?.id]); // depend on task id
 
@@ -17,7 +21,7 @@ export default function EditTaskModal({ open, onClose, task, onSave }) {
     e.preventDefault();
     const t = title.trim();
     if (!t) return;
-    onSave?.(t, desc);
+    onSave?.(t, desc, date, time);
   };
 
   // Don't render at all without a task
@@ -36,6 +40,22 @@ export default function EditTaskModal({ open, onClose, task, onSave }) {
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
         />
+        <label className="modal-form-label">
+          Date (optional)
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </label>
+        <label className="modal-form-label">
+          Time (optional)
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          />
+        </label>
         <div className="modal-footer">
           <button type="button" className="btn btn-ghost" onClick={onClose}>
             Cancel

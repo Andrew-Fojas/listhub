@@ -6,6 +6,8 @@ const TaskSchema = new mongoose.Schema(
     title:  { type: String, required: true, trim: true },
     desc:   { type: String, default: "" },
     done:   { type: Boolean, default: false },
+    date:   { type: String, default: "" },
+    time:   { type: String, default: "" },
     ownerEmail: { type: String, index: true, required: true },
   },
   { timestamps: true }
