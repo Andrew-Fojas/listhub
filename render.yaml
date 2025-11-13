@@ -3,7 +3,6 @@ services:
   - type: web
     name: listhub-api
     runtime: node
-    env: node
     region: oregon
     plan: free
     buildCommand: cd api && npm install
@@ -29,7 +28,6 @@ services:
   - type: web
     name: listhub-frontend
     runtime: static
-    plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     envVars:
