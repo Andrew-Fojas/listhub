@@ -14,14 +14,14 @@ export async function addTask(req, res){
   const parse = createTaskSchema.safeParse(req.body);
   if (!parse.success) return res.status(400).json({ error: parse.error.flatten() });
 
-  const { title, desc, date, time, emailReminder } = parse.data;
+  const { title, desc, date, time, emailReminder, timezoneOffset } = parse.data;
 
   // Validate email reminder requirements
   if (emailReminder) {
     if (!date || !time) {
       return res.status(400).json({ error: "The Date and Time must be filled in to send an email reminder" });
     }
-    if (!isValidReminderTime(date, time)) {
+    if (!isValidReminderTime(date, time, timezoneOffset)) {
       return res.status(400).json({ error: "The task must be scheduled 10 minutes in advance of the present moment" });
     }
   }

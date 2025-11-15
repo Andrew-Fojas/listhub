@@ -76,20 +76,26 @@ export async function cancelScheduledEmail(emailId) {
  * Validates that the task is scheduled at least 10 minutes in the future
  * @param {string} date - Task date (YYYY-MM-DD)
  * @param {string} time - Task time (HH:MM)
+ * @param {number} timezoneOffset - User's timezone offset in minutes (from Date.getTimezoneOffset())
  * @returns {boolean} - True if valid, false otherwise
  */
-export function isValidReminderTime(date, time) {
+export function isValidReminderTime(date, time, timezoneOffset = 0) {
   if (!date || !time) return false;
 
   const [year, month, day] = date.split("-");
   const [hours, minutes] = time.split(":");
 
+  // Create date in user's local timezone, then convert to UTC
+  // timezoneOffset is negative for timezones ahead of UTC (e.g., PST is +480)
   const taskDateTime = new Date(year, month - 1, day, hours, minutes);
+  // Subtract the user's timezone offset to get UTC time
+  taskDateTime.setMinutes(taskDateTime.getMinutes() - timezoneOffset);
+
   const now = new Date();
   const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
 
   const diffMinutes = (taskDateTime - now) / (60 * 1000);
-  console.log(`Task time validation: task=${taskDateTime.toISOString()}, now=${now.toISOString()}, diff=${diffMinutes.toFixed(2)} minutes`);
+  console.log(`Task time validation: task=${taskDateTime.toISOString()}, now=${now.toISOString()}, diff=${diffMinutes.toFixed(2)} minutes, offset=${timezoneOffset}`);
 
   return taskDateTime > tenMinutesFromNow;
 }

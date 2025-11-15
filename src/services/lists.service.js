@@ -23,7 +23,9 @@ export async function getListById(id) {
 
 // ADD TASK
 export async function addTask(listId, title, desc = "", date = "", time = "", emailReminder = false) {
-  return jpost(`/api/lists/${listId}/tasks`, { title, desc, date, time, emailReminder });
+  // Get user's timezone offset in minutes (e.g., PST is 480 minutes behind UTC)
+  const timezoneOffset = new Date().getTimezoneOffset();
+  return jpost(`/api/lists/${listId}/tasks`, { title, desc, date, time, emailReminder, timezoneOffset });
 }
 
 // TOGGLE TASK
