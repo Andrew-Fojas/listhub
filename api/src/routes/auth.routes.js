@@ -17,11 +17,11 @@ r.get("/google/callback",
     // req.user was set in the strategy
     const token = signUserToken(req.user);
     // set httpOnly cookie
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax",
-      // true in production behind https
-      secure: false, 
+      sameSite: isProduction ? "none" : "lax",
+      secure: isProduction,
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
     res.redirect(`${CLIENT_URL}/`);
