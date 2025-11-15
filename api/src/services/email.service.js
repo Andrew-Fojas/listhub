@@ -88,5 +88,8 @@ export function isValidReminderTime(date, time) {
   const now = new Date();
   const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
 
+  const diffMinutes = (taskDateTime - now) / (60 * 1000);
+  console.log(`Task time validation: task=${taskDateTime.toISOString()}, now=${now.toISOString()}, diff=${diffMinutes.toFixed(2)} minutes`);
+
   return taskDateTime > tenMinutesFromNow;
 }
