@@ -37,6 +37,7 @@ export async function addTask(req, res){
         taskDesc: desc,
         taskDate: date,
         taskTime: time,
+        timezoneOffset,
       });
       emailScheduledId = result.id;
     } catch (error) {

@@ -11,15 +11,18 @@ const resend = new Resend(process.env.RESEND_API_KEY);
  * @param {string} options.taskDesc -->  Description of the task (optional)
  * @param {string} options.taskDate --> Date of the task (YYYY-MM-DD)
  * @param {string} options.taskTime --> Time of the task (HH:MM)
+ * @param {number} options.timezoneOffset --> User's timezone offset in minutes
  * @returns {Promise<{id: string}>} --> Returns the scheduled email ID
 */
- 
-export async function scheduleTaskReminder({ to, taskTitle, taskDesc, taskDate, taskTime }) {
+
+export async function scheduleTaskReminder({ to, taskTitle, taskDesc, taskDate, taskTime, timezoneOffset = 0 }) {
   // Calculate scheduled send time (10 minutes before task time)
   const [year, month, day] = taskDate.split("-");
   const [hours, minutes] = taskTime.split(":");
 
+  // Convert user's local time to UTC
   const taskDateTime = new Date(year, month - 1, day, hours, minutes);
+  taskDateTime.setMinutes(taskDateTime.getMinutes() + timezoneOffset);
   const reminderTime = new Date(taskDateTime.getTime() - 10 * 60 * 1000); // 10 minutes before
 
   // Format date and time for email
@@ -95,8 +98,8 @@ export function isValidReminderTime(date, time, timezoneOffset = 0) {
   const now = new Date();
   const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
 
-  const diffMinutes = (taskDateTime - now) / (60 * 1000);
-  console.log(`Task time validation: task=${taskDateTime.toISOString()}, now=${now.toISOString()}, diff=${diffMinutes.toFixed(2)} minutes, offset=${timezoneOffset}`);
+  //const diffMinutes = (taskDateTime - now) / (60 * 1000);
+  //console.log(`Task time validation: task=${taskDateTime.toISOString()}, now=${now.toISOString()}, diff=${diffMinutes.toFixed(2)} minutes, offset=${timezoneOffset}`);
 
   return taskDateTime > tenMinutesFromNow;
 }
