@@ -26,7 +26,7 @@ services:
 
   # Frontend Service (Static Site)
   - type: web
-    name: listhub-frontend
+    name: listhub
     runtime: static
     buildCommand: npm install && npm run build
     staticPublishPath: dist
