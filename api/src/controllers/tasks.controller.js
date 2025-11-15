@@ -40,7 +40,8 @@ export async function addTask(req, res){
       });
       emailScheduledId = result.id;
     } catch (error) {
-      return res.status(500).json({ error: "Failed to schedule email reminder" });
+      console.error("Failed to schedule email reminder:", error);
+      return res.status(500).json({ error: `Failed to schedule email reminder: ${error.message}` });
     }
   }
 
