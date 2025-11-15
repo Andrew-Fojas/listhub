@@ -85,11 +85,12 @@ export function isValidReminderTime(date, time, timezoneOffset = 0) {
   const [year, month, day] = date.split("-");
   const [hours, minutes] = time.split(":");
 
-  // Create date in user's local timezone, then convert to UTC
-  // timezoneOffset is negative for timezones ahead of UTC (e.g., PST is +480)
+  // Create date treating time as UTC, then adjust for user's timezone
+  // getTimezoneOffset() returns positive for timezones behind UTC (e.g., PST = +480)
+  // User's local time needs to be converted to UTC by adding the offset
   const taskDateTime = new Date(year, month - 1, day, hours, minutes);
-  // Subtract the user's timezone offset to get UTC time
-  taskDateTime.setMinutes(taskDateTime.getMinutes() - timezoneOffset);
+  // Add the user's timezone offset to convert local time to UTC
+  taskDateTime.setMinutes(taskDateTime.getMinutes() + timezoneOffset);
 
   const now = new Date();
   const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
