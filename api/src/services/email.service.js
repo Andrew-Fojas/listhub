@@ -19,8 +19,7 @@ export async function scheduleTaskReminder({ to, taskTitle, taskDesc, taskDate, 
   const [year, month, day] = taskDate.split("-");
   const [hours, minutes] = taskTime.split(":");
 
-  // Use UTC to avoid timezone issues
-  const taskDateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes));
+  const taskDateTime = new Date(year, month - 1, day, hours, minutes);
   const reminderTime = new Date(taskDateTime.getTime() - 10 * 60 * 1000); // 10 minutes before
 
   // Format date and time for email
@@ -85,8 +84,7 @@ export function isValidReminderTime(date, time) {
   const [year, month, day] = date.split("-");
   const [hours, minutes] = time.split(":");
 
-  // Use UTC to avoid timezone issues
-  const taskDateTime = new Date(Date.UTC(year, month - 1, day, hours, minutes));
+  const taskDateTime = new Date(year, month - 1, day, hours, minutes);
   const now = new Date();
   const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
 
