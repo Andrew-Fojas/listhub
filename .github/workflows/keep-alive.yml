@@ -16,4 +16,4 @@ jobs:
 
       - name: Ping Frontend
         run: |
-          curl -f https://listhub.onrender.com || echo "Frontend ping failed"
+          curl -f https://listhub-b2e8.onrender.com || echo "Frontend ping failed"
