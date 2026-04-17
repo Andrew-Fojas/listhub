@@ -2,7 +2,7 @@
 
 A full-stack task management application with intelligent email reminders, Google OAuth authentication, and universal timezone support. Built with modern web technologies and deployed on Render's cloud platform.
 
-**Live Demo:** [listhub-b2e8.onrender.com](https://listhub-b2e8.onrender.com)
+**Live Demo:** [ListHub](https://listhub-b2e8.onrender.com/login)
 
 ---
 
