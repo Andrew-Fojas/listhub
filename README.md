@@ -86,13 +86,12 @@ A full-stack task management application with intelligent email reminders, Googl
 #### Lists
 - `GET /api/lists` - Retrieve all lists for authenticated user
 - `POST /api/lists` - Create a new list
-- `PATCH /api/lists/:id` - Update list details
 - `DELETE /api/lists/:id` - Delete list and all associated tasks
 
 #### Tasks
 - `POST /api/lists/:id/tasks` - Create task with optional email reminder
 - `PATCH /api/tasks/:id` - Update task details or toggle email reminder
-- `POST /api/tasks/:id/toggle` - Toggle task completion status
+- `PATCH /api/tasks/:id/toggle` - Toggle task completion status
 - `DELETE /api/tasks/:id` - Delete task and cancel scheduled email
 
 ---
